@@ -1,8 +1,11 @@
 package com.mopkoff.registrar.repository.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -10,17 +13,28 @@ import javax.persistence.*;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column
-    Integer id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    UUID id;
     @ManyToOne
     @JoinColumn(
             name = "user_id",
             foreignKey = @ForeignKey(name = "account_user_fk", value = ConstraintMode.NO_CONSTRAINT)
     )
+    @JsonBackReference
     User user;
     @Column
-    String email;
+    @Enumerated(EnumType.STRING)
+    AccountType type;
     @Column
-    String phone;
+    String username;
+    @Column
+    String password;
+
+    public enum AccountType {
+        DISCORD, TWITTER
+    }
 }

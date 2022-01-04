@@ -10,3 +10,8 @@ spring:
         generate-ddl: on
         hibernate:
             ddl-auto: update
+
+app:
+    onlinesim:
+        url: https://onlinesim.ru/api/
+        apiKey: b60fda9e10f087dd9766561f5aa99610

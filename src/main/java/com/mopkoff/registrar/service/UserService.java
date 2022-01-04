@@ -1,6 +1,6 @@
 package com.mopkoff.registrar.service;
 
-import com.mopkoff.registrar.repository.UserEntityRepository;
+import com.mopkoff.registrar.repository.UserRepository;
 import com.mopkoff.registrar.repository.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserEntityRepository repository;
+    private final UserRepository repository;
 
     public List<User> findAll() {
         return repository.findAll();
