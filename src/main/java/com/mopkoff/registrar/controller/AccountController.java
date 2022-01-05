@@ -1,7 +1,7 @@
 package com.mopkoff.registrar.controller;
 
-import com.mopkoff.registrar.repository.model.Account;
-import com.mopkoff.registrar.repository.model.User;
+import com.mopkoff.registrar.model.domain.Account;
+import com.mopkoff.registrar.model.domain.User;
 import com.mopkoff.registrar.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,20 +16,18 @@ import static com.mopkoff.registrar.common.Constants.USER_ID_HEADER;
 @RequiredArgsConstructor
 public class AccountController {
 
-    private final AccountService accountService;
+  private final AccountService accountService;
 
-    @GetMapping
-    public List<Account> findAll() {
-        return accountService.findAll();
-    }
+  @GetMapping
+  public List<Account> findAll() {
+    return accountService.findAll();
+  }
 
-    @PostMapping
-    public Account add(
-            @RequestHeader(USER_ID_HEADER) UUID userId,
-            @RequestBody Account account) {
-        var user = new User();
-        user.setId(userId);
-        account.setUser(user);
-        return accountService.add(account);
-    }
+  @PostMapping
+  public Account add(
+      @RequestHeader(USER_ID_HEADER) UUID userId,
+      @RequestBody Account account) {
+    account = account.withUser(User.builder().id(userId).build());
+    return accountService.save(account);
+  }
 }

@@ -1,18 +1,27 @@
-package com.mopkoff.registrar.repository.model;
+package com.mopkoff.registrar.model.repository;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.validation.constraints.Email;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 @Data
 @Entity
+@Builder
 @Table(name = "users")
-public class User {
+@NoArgsConstructor
+@AllArgsConstructor
+public class UserEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -23,6 +32,7 @@ public class User {
     UUID id;
     @Column
     String name;
+    @Email
     @Column
     String email;
     @Column
@@ -30,6 +40,5 @@ public class User {
     @Column
     Instant birthDate;
     @OneToMany(mappedBy = "user")
-    @JsonManagedReference
-    List<Account> accounts;
+    List<AccountEntity> accounts;
 }

@@ -1,7 +1,9 @@
 package com.mopkoff.registrar.controller;
 
-import com.mopkoff.registrar.repository.model.User;
+import com.mopkoff.registrar.model.domain.User;
+import com.mopkoff.registrar.model.repository.UserEntity;
 import com.mopkoff.registrar.service.UserService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User add(@RequestBody User user) {
-        return userService.add(user);
+    public User add(@RequestBody @Valid User user) {
+        return userService.save(user);
     }
 }

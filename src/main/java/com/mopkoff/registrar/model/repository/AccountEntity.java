@@ -1,7 +1,10 @@
-package com.mopkoff.registrar.repository.model;
+package com.mopkoff.registrar.model.repository;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.mopkoff.registrar.model.enums.AccountType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -9,8 +12,11 @@ import java.util.UUID;
 
 @Data
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "accounts")
-public class Account {
+public class AccountEntity {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -24,8 +30,7 @@ public class Account {
             name = "user_id",
             foreignKey = @ForeignKey(name = "account_user_fk", value = ConstraintMode.NO_CONSTRAINT)
     )
-    @JsonBackReference
-    User user;
+    UserEntity user;
     @Column
     @Enumerated(EnumType.STRING)
     AccountType type;
@@ -33,8 +38,4 @@ public class Account {
     String username;
     @Column
     String password;
-
-    public enum AccountType {
-        DISCORD, TWITTER
-    }
 }
