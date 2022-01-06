@@ -1,14 +1,22 @@
 package com.mopkoff.registrar.model.repository;
 
 import com.mopkoff.registrar.model.enums.AccountType;
+import java.util.UUID;
+import javax.persistence.ConstraintMode;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.util.UUID;
 
 @Data
 @Entity
@@ -31,11 +39,8 @@ public class AccountEntity {
             foreignKey = @ForeignKey(name = "account_user_fk", value = ConstraintMode.NO_CONSTRAINT)
     )
     UserEntity user;
-    @Column
     @Enumerated(EnumType.STRING)
     AccountType type;
-    @Column
     String username;
-    @Column
     String password;
 }

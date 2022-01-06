@@ -9,7 +9,7 @@ spring:
                 default_schema: registrar
         generate-ddl: on
         hibernate:
-            ddl-auto: create-drop
+            ddl-auto: update
     jackson:
         default-property-inclusion: non_null
 

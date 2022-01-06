@@ -1,19 +1,18 @@
 package com.mopkoff.registrar.model.repository;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import javax.validation.constraints.Email;
+import java.time.Instant;
+import java.util.List;
+import java.util.UUID;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-
-import javax.persistence.*;
-import java.time.Instant;
-import java.util.List;
-import java.util.UUID;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
 
 @Data
 @Entity
@@ -30,14 +29,9 @@ public class UserEntity {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     UUID id;
-    @Column
     String name;
-    @Email
-    @Column
     String email;
-    @Column
     String phone;
-    @Column
     Instant birthDate;
     @OneToMany(mappedBy = "user")
     List<AccountEntity> accounts;

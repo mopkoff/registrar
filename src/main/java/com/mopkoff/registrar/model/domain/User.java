@@ -1,23 +1,15 @@
 package com.mopkoff.registrar.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.mopkoff.registrar.annotation.PhoneNumberValid;
-import com.mopkoff.registrar.model.repository.AccountEntity;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Value;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.With;
 
+@With
 @Value
 @Builder
 public class User {
@@ -26,7 +18,7 @@ public class User {
     String name;
     @Email
     String email;
-    @PhoneNumberValid
+    //@PhoneNumberValid
     String phoneNumber;
     Instant birthDate;
     @JsonManagedReference

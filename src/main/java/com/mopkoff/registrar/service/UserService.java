@@ -1,19 +1,14 @@
 package com.mopkoff.registrar.service;
 
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.mopkoff.registrar.model.domain.Account;
 import com.mopkoff.registrar.model.domain.User;
-import com.mopkoff.registrar.model.repository.AccountEntity;
-import com.mopkoff.registrar.repository.UserRepository;
 import com.mopkoff.registrar.model.repository.UserEntity;
-import java.util.Locale;
+import com.mopkoff.registrar.repository.UserRepository;
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.convert.support.GenericConversionService;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Slf4j
 @Service

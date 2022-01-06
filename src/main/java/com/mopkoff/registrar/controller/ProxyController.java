@@ -1,7 +1,7 @@
 package com.mopkoff.registrar.controller;
 
-import com.mopkoff.registrar.model.domain.User;
-import com.mopkoff.registrar.service.UserService;
+import com.mopkoff.registrar.model.domain.ProxyConfig;
+import com.mopkoff.registrar.service.ProxyService;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,24 +13,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("proxies")
 @RequiredArgsConstructor
-public class UserController {
+public class ProxyController {
 
-  private final UserService userService;
+  private final ProxyService proxyService;
 
   @GetMapping
-  public List<User> findAll() {
-    return userService.findAll();
+  public List<ProxyConfig> findAll() {
+    return proxyService.findAll();
   }
 
   @PostMapping
-  public User add(@RequestBody @Valid User user) {
-    return userService.save(user.withId(null));
+  public ProxyConfig add(@RequestBody @Valid ProxyConfig proxyConfig) {
+    return proxyService.save(proxyConfig.withId(null));
   }
 
   @PutMapping
-  public User update(@RequestBody @Valid User user) {
-    return userService.save(user);
+  public ProxyConfig update(@RequestBody @Valid ProxyConfig proxyConfig) {
+    return proxyService.save(proxyConfig);
   }
 }
