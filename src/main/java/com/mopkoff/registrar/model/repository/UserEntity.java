@@ -1,6 +1,6 @@
 package com.mopkoff.registrar.model.repository;
 
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.Entity;
@@ -32,7 +32,7 @@ public class UserEntity {
     String name;
     String email;
     String phone;
-    Instant birthDate;
+    LocalDate birthDate;
     @OneToMany(mappedBy = "user")
     List<AccountEntity> accounts;
 }

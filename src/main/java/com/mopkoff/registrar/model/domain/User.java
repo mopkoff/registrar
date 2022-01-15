@@ -1,7 +1,7 @@
 package com.mopkoff.registrar.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 import javax.validation.constraints.Email;
@@ -20,7 +20,7 @@ public class User {
     String email;
     //@PhoneNumberValid
     String phoneNumber;
-    Instant birthDate;
+    LocalDate birthDate;
     @JsonManagedReference
     List<Account> accounts;
 }
