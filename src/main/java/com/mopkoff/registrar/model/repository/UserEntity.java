@@ -8,11 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.mopkoff.registrar.service.integration.model.RentStateResponse;
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 @Data
 @Entity
@@ -20,6 +26,9 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
+@TypeDefs(
+        @TypeDef(name = "jsonb", typeClass = JsonBinaryType.class)
+)
 public class UserEntity {
 
     @Id
@@ -29,9 +38,13 @@ public class UserEntity {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     UUID id;
-    String name;
+    String firstName;
+    String lastName;
+    String userName;
     String email;
-    String phone;
+    String password;
+    @Type(type = "jsonb")
+    RentStateResponse phone;
     LocalDate birthDate;
     @OneToMany(mappedBy = "user")
     List<AccountEntity> accounts;

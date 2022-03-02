@@ -1,8 +1,13 @@
 package com.mopkoff.registrar.service.integration;
 
 import com.mopkoff.registrar.config.OnlineSimProperties;
+import com.mopkoff.registrar.service.integration.model.BalanceResponse;
+import com.mopkoff.registrar.service.integration.model.NumberStats;
+import com.mopkoff.registrar.service.integration.model.RentNumResponse;
+import com.mopkoff.registrar.service.integration.model.RentStateResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -11,27 +16,66 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OnlineSimService {
 
     private static final String API_KEY_HEADER = "apikey";
-    private static final String GET_BALANCE_URL = "getBalance.php";
-
     private final RestTemplate restTemplate;
     private final OnlineSimProperties onlineSimProperties;
 
+    public RentStateResponse rentNumberGoogle() {
+        var stats = getServiceStats(OnlineSimProperties.SERVICE_GOOGLE);
+        var balance = getBalance();
+        if (balance.getIntBalance() < stats.getPrice()){
+            throw new IllegalStateException("Not enough money");
+        }
+        var numberResponse = getNumber(OnlineSimProperties.SERVICE_GOOGLE);
+        var number = getState(numberResponse.getTzid());
+        return number;
+    }
+
     @SneakyThrows
-    public String getBalance() {
-
-        var request = new HttpEntity<>(getHeaders());
-        var response = restTemplate.exchange(onlineSimBalanceUrl(), HttpMethod.GET, request, String.class);
-
+    public BalanceResponse getBalance() {
+        var response = restTemplate.exchange(onlineSimProperties.getBalanceUrl(), HttpMethod.GET, request(), BalanceResponse.class);
         return response.getBody();
     }
 
-    private String onlineSimBalanceUrl() {
-        return onlineSimProperties.getUrl() + GET_BALANCE_URL;
+    public NumberStats.SimService getServiceStats(String service) {
+        return getNumberStats().getServices().get(service);
+    }
+
+    @SneakyThrows
+    public NumberStats getNumberStats() {
+        var response = restTemplate.exchange(onlineSimProperties.getNumbersStats(), HttpMethod.GET, request(), NumberStats.class);
+        var body = response.getBody();
+        if (!body.isEnabled()) {
+            throw new IllegalStateException("bad status");
+        }
+        return body;
+    }
+
+    @SneakyThrows
+    public RentNumResponse getNumber(String service) {
+        var response = restTemplate.exchange(onlineSimProperties.getNumber(service), HttpMethod.GET, request(), RentNumResponse.class);
+        var body = response.getBody();
+        if (body.getResponse() != 1) {
+            throw new IllegalStateException("bad status");
+        }
+        return body;
+    }
+
+    @SneakyThrows
+    public RentStateResponse getState(int tzId) {
+        var response = restTemplate.exchange(onlineSimProperties.getState(), HttpMethod.GET, request(), RentStateResponse.class);
+        var body = response.getBody();
+        log.info("Rented: " + body);
+        return body;
+    }
+
+    private HttpEntity request() {
+        return new HttpEntity<>(getHeaders());
     }
 
     private HttpHeaders getHeaders() {

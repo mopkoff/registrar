@@ -29,6 +29,11 @@ public class UserController {
     return userService.save(user.withId(null));
   }
 
+  @PostMapping("generate")
+  public User generate() {
+    return userService.generate();
+  }
+
   @PutMapping
   public User update(@RequestBody @Valid User user) {
     return userService.save(user);

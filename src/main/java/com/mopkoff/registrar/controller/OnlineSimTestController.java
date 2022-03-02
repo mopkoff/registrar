@@ -1,6 +1,7 @@
 package com.mopkoff.registrar.controller;
 
 import com.mopkoff.registrar.service.integration.OnlineSimService;
+import com.mopkoff.registrar.service.integration.model.BalanceResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +13,7 @@ public class OnlineSimTestController {
     private final OnlineSimService onlineSimService;
 
     @GetMapping("balance")
-    public String findAll() {
+    public BalanceResponse getBalance() {
         return onlineSimService.getBalance();
     }
 

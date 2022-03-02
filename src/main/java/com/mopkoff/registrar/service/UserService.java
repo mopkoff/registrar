@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
   private final UserRepository repository;
+  private final UserGeneratorService userGeneratorService;
   private final GenericConversionService registrarConversionService;
 
   public List<User> findAll() {
@@ -28,5 +29,10 @@ public class UserService {
     var entity = registrarConversionService.convert(user, UserEntity.class);
     var saved = repository.save(entity);
     return registrarConversionService.convert(saved, User.class);
+  }
+
+  public User generate() {
+    var user = userGeneratorService.generateUserGoogle();
+    return save(user);
   }
 }
